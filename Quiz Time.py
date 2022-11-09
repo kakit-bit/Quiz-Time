@@ -1,12 +1,13 @@
 # Script imports pre-set quiz questions, options and answer from .csv file
-# Script converts .csv questions into class objects
+# Script converts .csv questions into class objects and randomizes question order
 # User is prompted for answer input
 # Script returns number of mistakes made
 
 import time as t
 import matplotlib as plt
+import random
 
-# Class saves Question data in to a Profile Object
+# Class saves question data in to a Profile Object
 class Question():
     def __init__(self, quiz_question, choice_a, choice_b, choice_c, choice_d, quiz_answer):
         self.quiz_question = quiz_question
@@ -16,7 +17,7 @@ class Question():
         self.choice_d = choice_d
         self.quiz_answer = quiz_answer
 
-# Function Opens .csv File to Save Questions, Choices and Answer into List
+# Function Opens .csv File to Save questions, choices and answer into List
 def harvest_csv():
     import csv
     target_file = open("quiz.csv")
@@ -96,13 +97,14 @@ def prompt_user(class_question_list):
         print("4. ", class_question_list[num].choice_d)
 
         user_input = get_user_input()
-        print("")
 
         if check_answer(user_input, class_question_list, num) == False:
             mistakes += 1
+            print("Incorrect!")
         else:
-            pass
+            print("Correct!")
 
+        print("")
         num += 1
 
     return mistakes
@@ -121,11 +123,18 @@ def time_in_sec():
 
 if __name__ == '__main__':
 
-    # Intialize Questions from .csv
+    # Intialize questions from .csv
     question_list = harvest_csv()
     class_question_list = csv_to_class(question_list)
 
-    # Prompt user with Questions
-    print("Number of Mistakes: ",prompt_user(class_question_list))
+    # Randomize order of quiz questions
+    random.shuffle(class_question_list)
 
+    # Prompt user with questions and display final score
+    user_score = prompt_user(class_question_list)
+
+    if user_score > 1:
+        print("Number of mistakes: ", user_score)
+    else:
+        print("Congratulations on a perfect score!")
 
