@@ -133,8 +133,7 @@ if __name__ == '__main__':
     # Prompt user with questions and display final score
     user_score = prompt_user(class_question_list)
 
-    if user_score > 1:
+    if user_score >= 1:
         print("Number of mistakes: ", user_score)
     else:
         print("Congratulations on a perfect score!")
-
